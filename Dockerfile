@@ -45,5 +45,8 @@ RUN trtllm-build --checkpoint_dir ./tllm_checkpoint_1gpu_medusa \
                  --speculative_decoding_mode medusa \
                  --max_batch_size 4
 
+EXPOSE 8000
+
+
 # Set the entry point to ensure the engine is ready
 CMD ["echo", "TensorRT Engine build completed."]
