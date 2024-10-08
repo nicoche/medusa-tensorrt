@@ -14,14 +14,19 @@ RUN apt-get update && apt-get install -y \
     git-lfs \
     && rm -rf /var/lib/apt/lists/*
 
-# Install TensorRT-LLM and dependencies (use the latest available version)
+# Install TensorRT-LLM (specific version to avoid conflicts) and dependencies
 RUN pip3 install tensorrt_llm==0.14.0.dev2024100100 --pre --extra-index-url https://pypi.nvidia.com
 
 # Clone the TensorRT-LLM repo for examples
 RUN git clone https://github.com/NVIDIA/TensorRT-LLM.git && \
     cd TensorRT-LLM && \
-    git lfs install && \
-    pip3 install -r examples/medusa/requirements.txt
+    git lfs install
+
+# Modify the requirements.txt to remove the specific tensorrt_llm line
+RUN sed -i '/tensorrt_llm/d' TensorRT-LLM/examples/medusa/requirements.txt
+
+# Install the remaining dependencies from the modified requirements.txt
+RUN pip3 install -r TensorRT-LLM/examples/medusa/requirements.txt
 
 # Download the required models with Git LFS (ensure large weights are handled properly)
 RUN git lfs install && \
