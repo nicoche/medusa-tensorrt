@@ -14,8 +14,8 @@ RUN apt-get update && apt-get install -y \
     git-lfs \
     && rm -rf /var/lib/apt/lists/*
 
-# Install TensorRT-LLM and dependencies
-RUN pip3 install tensorrt_llm -U --pre --extra-index-url https://pypi.nvidia.com
+# Install TensorRT-LLM and dependencies (use the latest available version)
+RUN pip3 install tensorrt_llm==0.14.0.dev2024100100 --pre --extra-index-url https://pypi.nvidia.com
 
 # Clone the TensorRT-LLM repo for examples
 RUN git clone https://github.com/NVIDIA/TensorRT-LLM.git && \
