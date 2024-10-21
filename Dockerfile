@@ -27,7 +27,7 @@ RUN mkdir -p /app/tmp/medusa/7B/trt_engines/fp16/1-gpu
 
 # Set Hugging Face token dynamically at runtime instead of build time
 # The token will be passed during runtime via the Koyeb environment variable
-RUN python3 -c "from huggingface_hub import hf_hub_download; \
+RUN python3 -c "import os; from huggingface_hub import hf_hub_download; \
 hf_hub_download(repo_id='aayushmittalaayush/vicuna-7b-medusa-engine', \
 filename='rank0.engine', \
 local_dir='/app/tmp/medusa/7B/trt_engines/fp16/1-gpu', \
