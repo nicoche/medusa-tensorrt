@@ -25,24 +25,20 @@ RUN pip3 install -r requirements.txt
 # Create directories to store downloaded engine and config
 RUN mkdir -p /app/tmp/medusa/7B/trt_engines/fp16/1-gpu
 
-# Set Hugging Face token dynamically at runtime instead of build time
-# The token will be passed during runtime via the Koyeb environment variable
-RUN python3 -c "import os; from huggingface_hub import hf_hub_download; \
+# Set Hugging Face token in Python script directly
+RUN python3 -c "from huggingface_hub import hf_hub_download, login; \
+login(token='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'); \
 hf_hub_download(repo_id='aayushmittalaayush/vicuna-7b-medusa-engine', \
 filename='rank0.engine', \
-local_dir='/app/tmp/medusa/7B/trt_engines/fp16/1-gpu', \
-use_auth_token=os.getenv('HF_AUTH_TOKEN')); \
+local_dir='/app/tmp/medusa/7B/trt_engines/fp16/1-gpu'); \
 hf_hub_download(repo_id='aayushmittalaayush/vicuna-7b-medusa-engine', \
 filename='config.json', \
-local_dir='/app/tmp/medusa/7B/trt_engines/fp16/1-gpu', \
-use_auth_token=os.getenv('HF_AUTH_TOKEN'))"
+local_dir='/app/tmp/medusa/7B/trt_engines/fp16/1-gpu')"
 
 # Copy your script to run inference
 COPY run.sh /app/
 RUN chmod +x /app/run.sh
 
-# Expose port 8080 (if needed)
-EXPOSE 8080
 
 # Command to run the inference
 CMD ["./run.sh"]
