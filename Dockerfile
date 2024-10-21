@@ -25,11 +25,17 @@ RUN pip3 install -r requirements.txt
 # Create directories to store downloaded engine and config
 RUN mkdir -p /app/tmp/medusa/7B/trt_engines/fp16/1-gpu
 
-# Set Hugging Face token environment variable
-ENV HF_AUTH_TOKEN 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
-
-# Download rank0.engine and config.json from Hugging Face model repo with authentication
-RUN python3 -c "from huggingface_hub import hf_hub_download; hf_hub_download(repo_id='aayushmittalaayush/vicuna-7b-medusa-engine', filename='rank0.engine', local_dir='/app/tmp/medusa/7B/trt_engines/fp16/1-gpu', use_auth_token=True); hf_hub_download(repo_id='aayushmittalaayush/vicuna-7b-medusa-engine', filename='config.json', local_dir='/app/tmp/medusa/7B/trt_engines/fp16/1-gpu', use_auth_token=True)"
+# Set Hugging Face token dynamically at runtime instead of build time
+# The token will be passed during runtime via the Koyeb environment variable
+RUN python3 -c "from huggingface_hub import hf_hub_download; \
+hf_hub_download(repo_id='aayushmittalaayush/vicuna-7b-medusa-engine', \
+filename='rank0.engine', \
+local_dir='/app/tmp/medusa/7B/trt_engines/fp16/1-gpu', \
+use_auth_token=os.getenv('HF_AUTH_TOKEN')); \
+hf_hub_download(repo_id='aayushmittalaayush/vicuna-7b-medusa-engine', \
+filename='config.json', \
+local_dir='/app/tmp/medusa/7B/trt_engines/fp16/1-gpu', \
+use_auth_token=os.getenv('HF_AUTH_TOKEN'))"
 
 # Copy your script to run inference
 COPY run.sh /app/
