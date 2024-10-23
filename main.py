@@ -14,7 +14,7 @@ app = FastAPI()
 @app.on_event("startup")
 async def startup_event():
     logger.info("Logging into Hugging Face...")
-    login(token=os.getenv("HF_AUTH_TOKEN"))
+    login(token="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")
     logger.info("Logged into Hugging Face successfully.")
 
     logger.info("Downloading engine and config files...")
