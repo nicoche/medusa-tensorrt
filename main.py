@@ -8,7 +8,7 @@ app = FastAPI()
 
 # LLM Setup: Perform Hugging Face login and download engine/config
 # Ensure this runs only once to avoid repeated downloads
-login(token=os.getenv("HF_AUTH_TOKEN"))
+login(token='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')
 
 engine_path = "/app/tmp/medusa/7B/trt_engines/fp16/1-gpu/rank0.engine"
 config_path = "/app/tmp/medusa/7B/trt_engines/fp16/1-gpu/config.json"
