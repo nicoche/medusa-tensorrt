@@ -34,5 +34,8 @@ COPY main.py /app/
 # Set Hugging Face token environment variable
 ENV HF_AUTH_TOKEN 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
 
+# Expose the correct port
+EXPOSE 8000
+
 # Command to run FastAPI server with detailed logs enabled
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080", "--log-level", "debug"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--log-level", "debug"]
