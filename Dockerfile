@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y \
     libopenmpi-dev
 
 # Install Hugging Face client library for downloading models
-RUN pip3 install huggingface_hub fastapi uvicorn
+RUN pip3 install huggingface_hub[hf_transfer] fastapi uvicorn
 
 # Clone the latest version of TensorRT-LLM main branch
 RUN git clone --branch main https://github.com/NVIDIA/TensorRT-LLM.git
