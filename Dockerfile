@@ -22,6 +22,8 @@ RUN git clone --branch main https://github.com/NVIDIA/TensorRT-LLM.git
 WORKDIR /app/TensorRT-LLM/examples/medusa
 RUN pip3 install -r requirements.txt
 
+RUN pip3 install huggingface_hub[hf_transfer] hf_transfer
+
 # Create directories to store downloaded engine and config
 RUN mkdir -p /app/tmp/medusa/7B/trt_engines/fp16/1-gpu
 
